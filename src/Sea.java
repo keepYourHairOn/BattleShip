@@ -19,26 +19,29 @@ public class Sea {
         formulateField(this.player2, this.field2);
         draw(this.field1, this.drawing1);
         draw(this.field2, this.drawing2);
-        showField(this.drawing1);
-        System.out.println("++++++++++++++++++++++++++++++++++++++");
-        showField(this.drawing2);
+        showYourField(this.drawing1);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++");
+        showYourField(this.drawing2);
     }
 
     private void formulateField(Player player, Cell[][] field) {
+        if(player.getCells() != null) {
         ArrayList<Cell> ships = player.getCells();
-        for (Cell cell : ships) {
-            if(cell != null) {
-                for (int i = 1; i <= 10; i++) {
-                    if (cell.getX() == i) {
-                        for (int j = 1; j <= 10; j++) {
-                            if (cell.getY() == j) {
-                                field[i][j] = cell;
+
+            for (Cell cell : ships) {
+                if (cell != null) {
+                    for (int i = 1; i <= 10; i++) {
+                        if (cell.getX() == i) {
+                            for (int j = 1; j <= 10; j++) {
+                                if (cell.getY() == j) {
+                                    field[i][j] = cell;
+                                }
                             }
                         }
                     }
                 }
-            }
 
+            }
         }
 
     }
@@ -55,7 +58,7 @@ public class Sea {
         }
     }
 
-    public void showField(String[][] drawing) {
+    public void showYourField(String[][] drawing) {
         for (int i = 1; i <= 10; i++) {
             System.out.print("|");
             for (int j = 1; j <= 10; j++) {
