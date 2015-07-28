@@ -15,17 +15,25 @@ public class Sea {
     public Sea(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
-        formulateField();
+        formulateField(this.player1, this.field1);
+        formulateField(this.player2, this.field2);
+        draw(this.field1, this.drawing1);
+        draw(this.field2, this.drawing2);
+        showField(this.drawing1);
+        System.out.println("++++++++++++++++++++++++++++++++++++++");
+        showField(this.drawing2);
     }
 
-    private void formulateField() {
-        ArrayList<Cell> field = player2.getCells();
-        for (Cell cell : field) {
-            for (int i = 1; i <= 10; i++) {
-                if (cell.getX() == i) {
-                    for (int j = 1; j <= 10; j++) {
-                        if (cell.getY() == j) {
-                            field2[i][j] = cell;
+    private void formulateField(Player player, Cell[][] field) {
+        ArrayList<Cell> ships = player.getCells();
+        for (Cell cell : ships) {
+            if(cell != null) {
+                for (int i = 1; i <= 10; i++) {
+                    if (cell.getX() == i) {
+                        for (int j = 1; j <= 10; j++) {
+                            if (cell.getY() == j) {
+                                field[i][j] = cell;
+                            }
                         }
                     }
                 }
@@ -33,47 +41,41 @@ public class Sea {
 
         }
 
-        for (int i = 1; i <= 10; i++) {
-            for (int j = 1; j <= 10; j++) {
-                drawing2[i][j] = " - ";
-            }
-        }
+    }
 
+    private void draw(Cell[][] field, String[][] drawing){
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
-                if (field2[i][j] != null) {
-                    drawing2[i][j] = " # ";
+                if (field[i][j] != null) {
+                    drawing[i][j] = " # ";
                 } else {
-                    drawing2[i][j] = " - ";
+                    drawing[i][j] = " - ";
                 }
             }
         }
     }
 
-    private void showComputersField() {
+    public void showField(String[][] drawing) {
         for (int i = 1; i <= 10; i++) {
             System.out.print("|");
             for (int j = 1; j <= 10; j++) {
-                System.out.print(drawing2[i][j]);
+                System.out.print(drawing[i][j]);
                 System.out.print("|");
             }
             System.out.println();
         }
     }
 
-    private void showEmptyField() {
-        for (int i = 1; i <= 10; i++) {
-            System.out.print("|");
-            for (int j = 1; j <= 10; j++) {
-                System.out.print(" - ");
-                System.out.print("|");
+    public void shootTheField(Cell[][] field, int x, int y){
+        for (int i = 1; i < 11; i++) {
+            if(x == i) {
+                for (int j = 1; j < 11; j++) {
+                    if (y == j){
+                        field[x][y] = null;
+                    }
+                }
             }
-            System.out.println();
         }
-    }
-
-    public void shootTheField(int x, int y){
-
     }
 
 }
