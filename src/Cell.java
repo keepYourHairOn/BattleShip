@@ -12,6 +12,10 @@ public class Cell {
         isFree = false;
     }
 
+    public Cell(){
+        isFree = true;
+    }
+
     public void setIsFree(boolean isFree) {
         this.isFree = isFree;
     }
@@ -22,5 +26,9 @@ public class Cell {
 
     public Integer getX() {
         return x;
+    }
+
+    public boolean isFree() {
+        return isFree;
     }
 }
