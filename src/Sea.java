@@ -57,8 +57,13 @@ public class Sea {
      * @param drawing is field to output
      */
     public void showField(String[][] drawing) {
+            System.out.println("     A   B   C   D   E   F   G   H   I   K    ");
         for (int i = 1; i <= 10; i++) {
-            System.out.print("|");
+            if(i != 10){
+            System.out.print(i + "  |");
+            }else {
+                System.out.print(i + " |");
+            }
             for (int j = 1; j <= 10; j++) {
                 System.out.print(drawing[i][j]);
                 System.out.print("|");
@@ -132,13 +137,12 @@ public class Sea {
                             System.out.println("________________________________________");
                             System.out.println(player.name + ", it is your turn again!");
 
-                            System.out.println("Enter X coordinate! It should be a number from 1 to 10!");
-                            x = scanner.nextInt();
-                            System.out.println("Enter Y coordinate! It should be a character from A to K, except letter J!");
-                            String y1 = scanner.next();
-                            char[] y2 = y1.toCharArray();
-                            analyseInput(player, y2[0], x);
-                            menu();
+                            System.out.println("Enter coordinate! It should be a character from A to K, except letter J and then a number from 1 to 10!");
+                            String tmp = scanner.next();
+                            char[] arr = tmp.toCharArray();
+                            x = Character.getNumericValue(arr[1]);
+                            char y1 = arr[0];
+                            analyseInput(player, y1, x);
                         }
                     }
 
@@ -160,8 +164,7 @@ public class Sea {
             if (x > 0 && x <= 11) {
                 if (y > 0 && y <= 11) {
                     Scanner scanner = new Scanner(System.in);
-                    System.out.println(x +""+ y2);
-                    System.out.println("Do I miss(M), kill(K) or wounded(W)?");
+                    System.out.println(player.name + ": Do I miss(M), kill(K) or wounded(W)?");
                     String input = scanner.next();
                     if (input.equalsIgnoreCase("W")) {
                         drawing_player[x][y] = " X ";
@@ -173,22 +176,20 @@ public class Sea {
                         x = random.nextInt(10);
                         y2 = (char)(random.nextInt((75 - 65) + 1) + 65);
                         analyseInput(player, y2, x);
-                        System.out.println(x +""+ y2);
-                        analyseInput(player, y2, x);
 
                     } else if (input.equalsIgnoreCase("K")) {
                         drawing_player[x][y] = " X ";
                         player.minimizeCountOfLiveShips();
                         showField(this.drawing_player);
                         System.out.println("________________________________________");
-                        System.out.println(player.name + ", it is your turn again!");
+                        System.out.println("It is " + player.name + "'s turn again!");
 
                         Random random = new Random();
                         x = random.nextInt(10);
                         y2 = (char)(random.nextInt((75 - 65) + 1) + 65);
                         analyseInput(player, y2, x);
-                        System.out.println(x +""+ y2);
-                        analyseInput(player, y2, x);
+                    }else {
+                        return;
                     }
                 }
 
@@ -207,30 +208,39 @@ public class Sea {
             if (codeOfY > 0) {
 
                 if(player instanceof Human) {
-                    System.out.println(x +""+ y);
+                    System.out.println(y +""+ x);
                     manShootTheField(player, x, codeOfY);
                 }else {
+                    System.out.println(y +""+ x);
                     compShootTheField(player, x, codeOfY, y);
                 }
 
             } else {
-                System.out.println("You entered wrong Y coordinate! Try again! It should be a character from A to K, except letter J!");
+
                 if(player instanceof Human) {
-                    y = (char)scanner.nextByte();
-                    analyseInput(player, y, x);
+                    System.out.println("You entered wrong coordinates! Try again! It should be a character from A to K, except letter J and then a number from 1 to 10!");
+                    String tmp = scanner.next();
+                    char[] arr = tmp.toCharArray();
+                    x = Character.getNumericValue(arr[1]);
+                    char y1 = arr[0];
+                    analyseInput(player, y1, x);
                 }else {
                     Random random = new Random();
-                    y = (char)random.nextInt(75);
-                    System.out.println(x + y);
+                    x = random.nextInt(10);
+                    y = (char)(random.nextInt((75 - 65) + 1) + 65);
                     analyseInput(player2, y, x);
                 }
 
             }
         } else {
-            System.out.println("You entered wrong X coordinate! Try again! It should be a number from 1 to 10!");
+
             if(player instanceof Human) {
-                x = scanner.nextInt();
-                analyseInput(player, y, x);
+                System.out.println("You entered wrong coordinates! Try again! It should be a character from A to K, except letter J and then a number from 1 to 10!");
+                String tmp = scanner.next();
+                char[] arr = tmp.toCharArray();
+                x = Character.getNumericValue(arr[1]);
+                char y1 = arr[0];
+                analyseInput(player, y1, x);
             }else {
                 Random random = new Random();
                 x = random.nextInt(10);
@@ -240,52 +250,42 @@ public class Sea {
     }
 
     /**
-     * menu for human
+     * menu for players
      */
     public void menu() {
         int countOfStep = 1;
-        int x = 0;
+        Integer x = 0;
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println(player1.name + "'s turn to shoot");
-        System.out.println("Please enter coordinates of the cell you wanted to shoot!");
-        System.out.println("Enter X coordinate! It should be a number from 1 to 10!");
-        x = scanner.nextInt();
-        System.out.println("Enter Y coordinate! It should be a character from A to K, except letter J!");
-        String y1 = scanner.next();
-        char[] y2 = y1.toCharArray();
+
         while (player1.getCountOfLiveShips() != 0 || player2.getCountOfLiveShips() != 0) {
             if (countOfStep % 2 != 0) {
-                analyseInput(player1, y2[0], x);
+                System.out.println(player1.name + "'s turn to shoot");
+                System.out.println("Please enter coordinates of the cell you wanted to shoot!");
+                String tmp = scanner.next();
+                char[] arr = tmp.toCharArray();
+                x = Character.getNumericValue(arr[1]);
+                char y1 = arr[0];
+                analyseInput(player1, y1, x);
                 countOfStep++;
-                System.out.println(player2.name + "'s turn to shoot");
             } else {
+                System.out.println(player2.name + "'s turn to shoot");
+                System.out.println("Entered coordinates:");
                 Random random = new Random();
                 x = random.nextInt(10);
                 char tmp = (char)(random.nextInt((75 - 65) + 1) + 65);
                 analyseInput(player2,tmp, x);
                 countOfStep++;
-                System.out.println(player1.name + "'s turn to shoot");
+
             }
         }
     }
 
     /**
-     * menu for computer
-     *
-     * @param player computer
+     * method for getting the value of cell according to unicode number
+     * @param y
+     * @return
      */
-    public void menuForBot(Player player) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter coordinates of the cell you wanted to shoot!");
-        System.out.println("Enter X coordinate! It should be a number from 1 to 10!");
-        int x = scanner.nextInt();
-        System.out.println("Enter Y coordinate! It should be a character from A to K, except letter J!");
-        String y1 = scanner.next();
-        char[] y2 = y1.toCharArray();
-        analyseInput(player, y2[0], x);
-    }
-
     public int changeCharToInt(char y){
         int codeOfY = (int)y;
         int y1 = 0;
