@@ -15,4 +15,5 @@ public class Human extends Player {
     void locateShips() {
         System.out.println("Locate ships on your shit of paper!");
     }
+
 }

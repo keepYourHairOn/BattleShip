@@ -14,56 +14,80 @@ public class Computer extends Player {
 
     @Override
     void locateShips() {
+        /**
+         * TODO:to add a logic about AI creation of the ships
+         */
         ArrayList<Cell> coords = new ArrayList<>();
-        coords.add(new Cell(2,3));
-        ships.add(new Ship(coords, StateOfShip.INITIAl));
+        Ship ship = new Ship(coords, StateOfShip.INITIAl);
+        coords.add(new Cell(2,3, ship));
+        ship.setCoordinates(coords);
+        ships.add(ship);
 
         coords = new ArrayList<>();
-        coords.add(new Cell(1,10));
-        ships.add(new Ship(coords, StateOfShip.INITIAl));
+        Ship ship1 = new Ship(coords, StateOfShip.INITIAl);
+        coords.add(new Cell(1,10, ship1));
+        ship.setCoordinates(coords);
+        ships.add(ship1);
 
         coords = new ArrayList<>();
-        coords.add(new Cell(5,10));
-        ships.add(new Ship(coords, StateOfShip.INITIAl));
+        Ship ship2 = new Ship(coords, StateOfShip.INITIAl);
+        coords.add(new Cell(5,10, ship2));
+        ship.setCoordinates(coords);
+        ships.add(ship2);
 
         coords = new ArrayList<>();
-        coords.add(new Cell(9,3));
-        ships.add(new Ship(coords, StateOfShip.INITIAl));
+        Ship ship3 = new Ship(coords, StateOfShip.INITIAl);
+        coords.add(new Cell(9,3, ship3));
+        ship.setCoordinates(coords);
+        ships.add(ship3);
 
         coords = new ArrayList<>();
-        coords.add(new Cell(2,8));
-        coords.add(new Cell(3,8));
-        ships.add(new Ship(coords, StateOfShip.INITIAl));
+        Ship ship4 = new Ship(coords, StateOfShip.INITIAl);
+        coords.add(new Cell(2,8, ship4));
+        coords.add(new Cell(3,8, ship4));
+        ship.setCoordinates(coords);
+        ships.add(ship4);
 
         coords = new ArrayList<>();
-        coords.add(new Cell(6,1));
-        coords.add(new Cell(6,2));
-        ships.add(new Ship(coords, StateOfShip.INITIAl));
+        Ship ship5 = new Ship(coords, StateOfShip.INITIAl);
+        coords.add(new Cell(6,1,ship5));
+        coords.add(new Cell(6,2,ship5));
+        ship.setCoordinates(coords);
+        ships.add(ship5);
 
         coords = new ArrayList<>();
-        coords.add(new Cell(8,10));
-        coords.add(new Cell(9,10));
-        ships.add(new Ship(coords, StateOfShip.INITIAl));
+        Ship ship6 = new Ship(coords, StateOfShip.INITIAl);
+        coords.add(new Cell(8,10,ship6));
+        coords.add(new Cell(9,10,ship6));
+        ship.setCoordinates(coords);
+        ships.add(ship6);
 
         coords = new ArrayList<>();
-        coords.add(new Cell(4,1));
-        coords.add(new Cell(4,2));
-        coords.add(new Cell(4,3));
-        ships.add(new Ship(coords, StateOfShip.INITIAl));
+        Ship ship7 = new Ship(coords, StateOfShip.INITIAl);
+        coords.add(new Cell(4,1,ship7));
+        coords.add(new Cell(4,2,ship7));
+        coords.add(new Cell(4,3,ship7));
+        ship.setCoordinates(coords);
+        ships.add(ship7);
 
         coords = new ArrayList<>();
-        coords.add(new Cell(8,6));
-        coords.add(new Cell(8,7));
-        coords.add(new Cell(8,8));
-        ships.add(new Ship(coords, StateOfShip.INITIAl));
+        Ship ship8 = new Ship(coords, StateOfShip.INITIAl);
+        coords.add(new Cell(8,6,ship8));
+        coords.add(new Cell(8,7,ship8));
+        coords.add(new Cell(8,8,ship8));
+        ship.setCoordinates(coords);
+        ships.add(ship8);
 
         coords = new ArrayList<>();
-        coords.add(new Cell(3,5));
-        coords.add(new Cell(4,5));
-        coords.add(new Cell(5,5));
-        coords.add(new Cell(6,5));
-        ships.add(new Ship(coords, StateOfShip.INITIAl));
+        Ship ship9 = new Ship(coords, StateOfShip.INITIAl);
+        coords.add(new Cell(3,5,ship9));
+        coords.add(new Cell(4,5,ship9));
+        coords.add(new Cell(5,5,ship9));
+        coords.add(new Cell(6,5,ship9));
+        ship.setCoordinates(coords);
+        ships.add(ship9);
 
     }
+
 
 }

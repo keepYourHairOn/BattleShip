@@ -5,11 +5,13 @@ public class Cell {
     private Integer y;
     private Integer x;
     private boolean isFree;
+    private Ship ship;
 
-    public Cell(Integer x, Integer y) {
+    public Cell(Integer x, Integer y, Ship ship) {
         this.y = y;
         this.x = x;
-        isFree = false;
+        this.isFree = false;
+        this.ship = ship;
     }
 
     public Cell(){
@@ -30,5 +32,9 @@ public class Cell {
 
     public boolean isFree() {
         return isFree;
+    }
+
+    public Ship getShip() {
+        return ship;
     }
 }

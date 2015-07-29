@@ -16,7 +16,15 @@ public class Ship {
         this.stateOfShip = stateOfShip;
     }
 
+    public StateOfShip getStateOfShip() {
+        return stateOfShip;
+    }
+
     public ArrayList<Cell> getCoordinates() {
         return coordinates;
+    }
+
+    public void setCoordinates(ArrayList<Cell> coordinates) {
+        this.coordinates = coordinates;
     }
 }
