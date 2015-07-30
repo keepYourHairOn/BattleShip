@@ -39,7 +39,7 @@ public class Sea implements Serializable {
         formulateField(this.player2, this.field2);
         draw(this.field, this.drawing_player);
         draw(this.field2, this.drawing_player2);
-        showField(this.drawing_player2);
+        //showField(this.drawing_player2);
         System.out.println();
         //showField(this.drawing2);
     }
@@ -138,15 +138,23 @@ public class Sea implements Serializable {
                         field2[x][y].getShip().setStateOfShip(StateOfShip.HITTED);
                         if ((field2[x + 1][y] != null && field2[x + 1][y].isFree() == false) || (x > 1 && field2[x - 1][y] != null && field2[x - 1][y].isFree() == false)) {
                             System.out.println("W");
+                            writeToFile("   W\n");
+                            field1[x][y] = field2[x][y];
+
                         } else if ((field2[x][y + 1] != null && field2[x][y + 1].isFree() == false) || y > 1 && field2[x][y - 1] != null && field2[x][y - 1].isFree() == false) {
                             System.out.println("W");
+                            writeToFile("   W\n");
                         } else {
                             field2[x][y].getShip().setStateOfShip(StateOfShip.KILLED);
                             player.minimizeCountOfLiveShips();
                             System.out.println("K");
+                            writeToFile("K\n");
                         }
                     } else {
                         System.out.println("M");
+                        writeToFile("   M\n");
+                        draw(this.field1, this.drawing_player1);
+                        showField(this.drawing_player1);
                     }
 
                     if (field2[x][y] != null) {
@@ -166,19 +174,20 @@ public class Sea implements Serializable {
                                 char[] arr = tmp.toCharArray();
                                 x = Character.getNumericValue(arr[1]);
                                 char y1 = arr[0];
+                                String str = player.name + ": " + y1 + "" + x;
+                                writeToFile(str);
                                 analyseInput(player, y1, x);
 
                             } else {
                                 save(this);
                                 tmp = scanner.next();
-                                if (!tmp.equalsIgnoreCase("continue")) {
-                                    char[] arr = tmp.toCharArray();
-                                    x = Character.getNumericValue(arr[1]);
-                                    char y1 = arr[0];
-                                    analyseInput(player, y1, x);
-                                } else {
-                                    continueGame();
-                                }
+                                char[] arr = tmp.toCharArray();
+                                x = Character.getNumericValue(arr[1]);
+                                char y1 = arr[0];
+                                String str = player.name + ": " + y1 + "" + x;
+                                writeToFile(str);
+                                analyseInput(player, y1, x);
+
                             }
                         }
                     }
@@ -204,6 +213,7 @@ public class Sea implements Serializable {
                     System.out.println(player.name + ": Do I miss(M), kill(K) or wounded(W)?");
                     String input = scanner.next();
                     if (input.equalsIgnoreCase("W")) {
+                        writeToFile("   W\n");
                         drawing_player[x][y] = " X ";
                         showField(this.drawing_player);
                         System.out.println("________________________________________");
@@ -212,9 +222,13 @@ public class Sea implements Serializable {
                         Random random = new Random();
                         x = random.nextInt(10);
                         y2 = (char) (random.nextInt((75 - 65) + 1) + 65);
+                        String str = player.name + ": " + y2 + "" + x;
+                        System.out.println(str);
+                        writeToFile(str);
                         analyseInput(player, y2, x);
 
                     } else if (input.equalsIgnoreCase("K")) {
+                        writeToFile("   K\n");
                         drawing_player[x][y] = " X ";
                         player.minimizeCountOfLiveShips();
                         showField(this.drawing_player);
@@ -224,8 +238,12 @@ public class Sea implements Serializable {
                         Random random = new Random();
                         x = random.nextInt(10);
                         y2 = (char) (random.nextInt((75 - 65) + 1) + 65);
+                        String str = player.name + ": " + y2 + "" + x;
+                        System.out.println(str);
+                        writeToFile(str);
                         analyseInput(player, y2, x);
                     } else {
+                        writeToFile("   M\n");
                         return;
                     }
                 }
@@ -245,10 +263,14 @@ public class Sea implements Serializable {
             if (codeOfY > 0) {
 
                 if (player instanceof Human) {
-                    System.out.println(y + "" + x);
+                    String str = player1.name + ": " + y + "" + x;
+                    //System.out.println(str);
+                    //writeToFile(str);
                     manShootTheField(player, x, codeOfY);
                 } else {
-                    System.out.println(y + "" + x);
+                    String str = player2.name + ": " + y + "" + x;
+                    //System.out.println(str);
+                    //writeToFile(str);
                     compShootTheField(player, x, codeOfY, y);
                 }
 
@@ -262,17 +284,14 @@ public class Sea implements Serializable {
                         x = Character.getNumericValue(arr[1]);
                         char y1 = arr[0];
                         analyseInput(player, y1, x);
-                    }else {
+                    } else {
                         save(this);
                         tmp = scanner.next();
-                        if (!tmp.equalsIgnoreCase("continue")) {
-                            char[] arr = tmp.toCharArray();
-                            x = Character.getNumericValue(arr[1]);
-                            char y1 = arr[0];
-                            analyseInput(player, y1, x);
-                        } else {
-                            continueGame();
-                        }
+                        char[] arr = tmp.toCharArray();
+                        x = Character.getNumericValue(arr[1]);
+                        char y1 = arr[0];
+                        analyseInput(player, y1, x);
+
                     }
                 } else {
                     Random random = new Random();
@@ -295,14 +314,10 @@ public class Sea implements Serializable {
                 } else {
                     save(this);
                     tmp = scanner.next();
-                    if (!tmp.equalsIgnoreCase("continue")) {
-                        char[] arr = tmp.toCharArray();
-                        x = Character.getNumericValue(arr[1]);
-                        char y1 = arr[0];
-                        analyseInput(player, y1, x);
-                    } else {
-                        continueGame();
-                    }
+                    char[] arr = tmp.toCharArray();
+                    x = Character.getNumericValue(arr[1]);
+                    char y1 = arr[0];
+                    analyseInput(player, y1, x);
                 }
             } else {
                 Random random = new Random();
@@ -316,6 +331,13 @@ public class Sea implements Serializable {
      * menu for players
      */
     public void menu() {
+        try {
+            continueGame();
+        } catch (Exception e) {
+            System.out.println("There is no saved games!");
+            System.out.println("Starting new one...");
+        }
+
         int countOfStep = 1;
         Integer x = 0;
 
@@ -330,18 +352,20 @@ public class Sea implements Serializable {
                     char[] arr = tmp.toCharArray();
                     x = Character.getNumericValue(arr[1]);
                     char y1 = arr[0];
+                    String str = player1.name + ": " + y1 + "" + x;
+                    System.out.println(str);
+                    writeToFile(str);
                     analyseInput(player1, y1, x);
-                }else {
+                } else {
                     save(this);
                     tmp = scanner.next();
-                    if (!tmp.equalsIgnoreCase("continue")) {
-                        char[] arr = tmp.toCharArray();
-                        x = Character.getNumericValue(arr[1]);
-                        char y1 = arr[0];
-                        analyseInput(player1, y1, x);
-                    } else {
-                       continueGame();
-                    }
+                    char[] arr = tmp.toCharArray();
+                    x = Character.getNumericValue(arr[1]);
+                    char y1 = arr[0];
+                    String str = player1.name + ": " + y1 + "" + x;
+                    System.out.println(str);
+                    writeToFile(str);
+                    analyseInput(player1, y1, x);
                 }
                 countOfStep++;
             } else {
@@ -350,15 +374,22 @@ public class Sea implements Serializable {
                 Random random = new Random();
                 x = random.nextInt(10);
                 char tmp = (char) (random.nextInt((75 - 65) + 1) + 65);
+                String str = player2.name + ": " + tmp + "" + x;
+                System.out.println(str);
+                writeToFile(str);
                 analyseInput(player2, tmp, x);
                 countOfStep++;
 
             }
         }
         if (player1.getCountOfLiveShips() != 0 && player2.getCountOfLiveShips() == 0) {
-            System.out.println("    YOU WIN     ");
+            String str = player1.name + ":    YOU WIN     ";
+            System.out.println(str);
+            writeToFile(str);
         } else {
-            System.out.println("Game over :(");
+            String str = "Game over :(";
+            System.out.println(str);
+            writeToFile(str);
         }
     }
 
@@ -400,17 +431,20 @@ public class Sea implements Serializable {
 
     /**
      * method for sea serialization into file
+     *
      * @param sea is object to serialize
      */
     public void save(Sea sea) {
         try {
             FileOutputStream fileOut =
-                    new FileOutputStream("D:/Development/GitHub/BattleShip/saved.txt");
+                    new FileOutputStream("D:/Development/GitHub/BattleShip/saved.txt", false);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(sea);
             out.close();
             fileOut.close();
-            System.out.println("Serialized data is saved in saved file");
+            String str = "Serialized data is saved in saved.txt file";
+            System.out.println(str + "\n");
+            System.exit(0);
         } catch (IOException i) {
             i.printStackTrace();
         }
@@ -418,9 +452,10 @@ public class Sea implements Serializable {
 
     /**
      * method for deserialization
+     *
      * @return deserialized object read from the file
      */
-    public Sea continueGame() {
+    public Sea continueGame() throws Exception {
         Sea sea = null;
         try {
             FileInputStream fileIn = new FileInputStream("D:/Development/GitHub/BattleShip/saved.txt");
@@ -428,18 +463,32 @@ public class Sea implements Serializable {
             sea = (Sea) in.readObject();
             in.close();
             fileIn.close();
-        } catch (IOException i) {
-            i.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Sea class not found");
-            c.printStackTrace();
-            return null;
+        } catch (Exception i) {
+            throw i;
         }
-
-        System.out.println("Player 1: " + sea.player1.name + " VS Player 2: " + sea.player2.name);
+        String str = "Deserialized data is saved in saved.txt file";
+        String str1 = "Player 1: " + sea.player1.name + " VS Player 2: " + sea.player2.name;
+        System.out.println(str1);
 
         return sea;
+    }
+
+    /**
+     * method for writing game steps to file
+     *
+     * @param str is string to write
+     */
+    public void writeToFile(String str) {
+        try {
+            BufferedWriter stream = new BufferedWriter(new FileWriter("D:/Development/GitHub/BattleShip/log.txt", true));
+            stream.write(str);
+            stream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
     }
 }
 
