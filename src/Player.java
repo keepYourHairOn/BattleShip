@@ -9,13 +9,23 @@ public abstract class Player {
     protected boolean isHitted;
     protected int countOfLiveShips = 10;
 
-
+    /**
+     * method for overloading by child classes
+     */
     abstract void locateShips();
 
+    /**
+     * getter for all ships of the
+     * @return ships
+     */
     public ArrayList<Ship> getShips() {
         return ships;
     }
 
+    /**
+     * getter for all cells of all ships
+     * @return
+     */
     public ArrayList<Cell> getCells() {
         ArrayList<Cell> cells = new ArrayList<>();
         Ship ship;
@@ -34,11 +44,17 @@ public abstract class Player {
     }
 
 
-
+    /**
+     * counter of alive ships
+     * @return number of live ships
+     */
     public int getCountOfLiveShips() {
         return countOfLiveShips;
     }
 
+    /**
+     * method for changing the number of live ships
+     */
     public void minimizeCountOfLiveShips() {
         this.countOfLiveShips = countOfLiveShips - 1;
     }

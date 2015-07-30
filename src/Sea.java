@@ -6,6 +6,7 @@ import java.util.Scanner;
  * Created by Admin on 28.07.2015.
  */
 public class Sea {
+    private static Sea unique_instance;
     private Player player1;
     private Player player2;
     private Cell[][] field = new Cell[11][11];
@@ -16,9 +17,15 @@ public class Sea {
     private String[][] drawing_player2 = new String[11][11];
     private Integer count_of_steps = 0;
 
-    public Sea(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    /**
+     * constructor with parameters
+     *
+     * @param human    is a human
+     * @param computer is a computer
+     */
+    private Sea(Player human, Player computer) {
+        this.player1 = human;
+        this.player2 = computer;
         formulateField(this.player1, this.field1);
         formulateField(this.player2, this.field2);
         draw(this.field, this.drawing_player);
@@ -28,6 +35,10 @@ public class Sea {
         //showField(this.drawing2);
     }
 
+    /**
+     * default constructor
+     */
+    private Sea(){}
 
     /**
      * method for forming the field
@@ -57,11 +68,11 @@ public class Sea {
      * @param drawing is field to output
      */
     public void showField(String[][] drawing) {
-            System.out.println("     A   B   C   D   E   F   G   H   I   K    ");
+        System.out.println("     A   B   C   D   E   F   G   H   I   K    ");
         for (int i = 1; i <= 10; i++) {
-            if(i != 10){
-            System.out.print(i + "  |");
-            }else {
+            if (i != 10) {
+                System.out.print(i + "  |");
+            } else {
                 System.out.print(i + " |");
             }
             for (int j = 1; j <= 10; j++) {
@@ -73,12 +84,13 @@ public class Sea {
     }
 
     /**
+     * method for transform array of cells
      *
-     * @param player
-     * @param field
+     * @param player is player who plays now
+     * @param field  is array to put into all the cells
      */
     public void formulateField(Player player, Cell[][] field) {
-        if(player.getCells() != null) {
+        if (player.getCells() != null) {
             ArrayList<Cell> ships = player.getCells();
 
             for (Cell cell : ships) {
@@ -95,7 +107,7 @@ public class Sea {
                 }
 
             }
-        }else {
+        } else {
             System.out.println("You already done with formulating the field on your paper");
         }
     }
@@ -116,7 +128,7 @@ public class Sea {
                         field2[x][y].getShip().setStateOfShip(StateOfShip.HITTED);
                         if ((field2[x + 1][y] != null && field2[x + 1][y].isFree() == false) || (x > 1 && field2[x - 1][y] != null && field2[x - 1][y].isFree() == false)) {
                             System.out.println("W");
-                        }  else if ((field2[x][y + 1] != null && field2[x][y + 1].isFree() == false) || y > 1 && field2[x][y - 1] != null && field2[x][y - 1].isFree() == false) {
+                        } else if ((field2[x][y + 1] != null && field2[x][y + 1].isFree() == false) || y > 1 && field2[x][y - 1] != null && field2[x][y - 1].isFree() == false) {
                             System.out.println("W");
                         } else {
                             field2[x][y].getShip().setStateOfShip(StateOfShip.KILLED);
@@ -153,9 +165,9 @@ public class Sea {
     }
 
     /**
-     * method for human to shoot the field
+     * method for computer to shoot the field
      *
-     * @param player human
+     * @param player computer
      * @param x      coordinate x
      * @param y      coordinate y
      */
@@ -174,7 +186,7 @@ public class Sea {
 
                         Random random = new Random();
                         x = random.nextInt(10);
-                        y2 = (char)(random.nextInt((75 - 65) + 1) + 65);
+                        y2 = (char) (random.nextInt((75 - 65) + 1) + 65);
                         analyseInput(player, y2, x);
 
                     } else if (input.equalsIgnoreCase("K")) {
@@ -186,9 +198,9 @@ public class Sea {
 
                         Random random = new Random();
                         x = random.nextInt(10);
-                        y2 = (char)(random.nextInt((75 - 65) + 1) + 65);
+                        y2 = (char) (random.nextInt((75 - 65) + 1) + 65);
                         analyseInput(player, y2, x);
-                    }else {
+                    } else {
                         return;
                     }
                 }
@@ -207,41 +219,41 @@ public class Sea {
             int codeOfY = changeCharToInt(y);
             if (codeOfY > 0) {
 
-                if(player instanceof Human) {
-                    System.out.println(y +""+ x);
+                if (player instanceof Human) {
+                    System.out.println(y + "" + x);
                     manShootTheField(player, x, codeOfY);
-                }else {
-                    System.out.println(y +""+ x);
+                } else {
+                    System.out.println(y + "" + x);
                     compShootTheField(player, x, codeOfY, y);
                 }
 
             } else {
 
-                if(player instanceof Human) {
+                if (player instanceof Human) {
                     System.out.println("You entered wrong coordinates! Try again! It should be a character from A to K, except letter J and then a number from 1 to 10!");
                     String tmp = scanner.next();
                     char[] arr = tmp.toCharArray();
                     x = Character.getNumericValue(arr[1]);
                     char y1 = arr[0];
                     analyseInput(player, y1, x);
-                }else {
+                } else {
                     Random random = new Random();
                     x = random.nextInt(10);
-                    y = (char)(random.nextInt((75 - 65) + 1) + 65);
+                    y = (char) (random.nextInt((75 - 65) + 1) + 65);
                     analyseInput(player2, y, x);
                 }
 
             }
         } else {
 
-            if(player instanceof Human) {
+            if (player instanceof Human) {
                 System.out.println("You entered wrong coordinates! Try again! It should be a character from A to K, except letter J and then a number from 1 to 10!");
                 String tmp = scanner.next();
                 char[] arr = tmp.toCharArray();
                 x = Character.getNumericValue(arr[1]);
                 char y1 = arr[0];
                 analyseInput(player, y1, x);
-            }else {
+            } else {
                 Random random = new Random();
                 x = random.nextInt(10);
                 analyseInput(player2, y, x);
@@ -273,8 +285,8 @@ public class Sea {
                 System.out.println("Entered coordinates:");
                 Random random = new Random();
                 x = random.nextInt(10);
-                char tmp = (char)(random.nextInt((75 - 65) + 1) + 65);
-                analyseInput(player2,tmp, x);
+                char tmp = (char) (random.nextInt((75 - 65) + 1) + 65);
+                analyseInput(player2, tmp, x);
                 countOfStep++;
 
             }
@@ -283,11 +295,12 @@ public class Sea {
 
     /**
      * method for getting the value of cell according to unicode number
-     * @param y
-     * @return
+     *
+     * @param y is char to detect the code of
+     * @return column for element with y coordinate to put in
      */
-    public int changeCharToInt(char y){
-        int codeOfY = (int)y;
+    public int changeCharToInt(char y) {
+        int codeOfY = (int) y;
         int y1 = 0;
         if (codeOfY >= 65 && codeOfY <= 75 && codeOfY != 74) {
 
@@ -315,5 +328,13 @@ public class Sea {
         }
         return y1;
     }
+
+    public static Sea getUnique_instance(Player human, Player computer) {
+        if (unique_instance == null) {
+            unique_instance = new Sea(human, computer);
+        }
+        return unique_instance;
+    }
+
 }
 

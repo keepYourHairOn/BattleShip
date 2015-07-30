@@ -6,12 +6,20 @@ import java.util.Random;
  */
 public class Computer extends Player {
 
+    /**
+     * constructor with parameters
+     * @param name is name of the computer
+     */
     public Computer(String name){
         this.name = name;
         this.ships = new ArrayList<>();
         locateShips();
     }
 
+    /**
+     * method for location of computer's ships
+     * on defined places
+     */
     @Override
     void locateShips() {
         /**
