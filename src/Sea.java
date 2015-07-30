@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -5,7 +6,7 @@ import java.util.Scanner;
 /**
  * Created by Admin on 28.07.2015.
  */
-public class Sea {
+public class Sea implements Serializable {
     private static Sea unique_instance;
     private Player player1;
     private Player player2;
@@ -16,6 +17,14 @@ public class Sea {
     private String[][] drawing_player1 = new String[11][11];
     private String[][] drawing_player2 = new String[11][11];
     private Integer count_of_steps = 0;
+
+
+    public static Sea getUnique_instance(Player human, Player computer) {
+        if (unique_instance == null) {
+            unique_instance = new Sea(human, computer);
+        }
+        return unique_instance;
+    }
 
     /**
      * constructor with parameters
@@ -38,7 +47,8 @@ public class Sea {
     /**
      * default constructor
      */
-    private Sea(){}
+    private Sea() {
+    }
 
     /**
      * method for forming the field
@@ -151,10 +161,25 @@ public class Sea {
 
                             System.out.println("Enter coordinate! It should be a character from A to K, except letter J and then a number from 1 to 10!");
                             String tmp = scanner.next();
-                            char[] arr = tmp.toCharArray();
-                            x = Character.getNumericValue(arr[1]);
-                            char y1 = arr[0];
-                            analyseInput(player, y1, x);
+                            if (!tmp.equalsIgnoreCase("save")) {
+
+                                char[] arr = tmp.toCharArray();
+                                x = Character.getNumericValue(arr[1]);
+                                char y1 = arr[0];
+                                analyseInput(player, y1, x);
+
+                            } else {
+                                save(this);
+                                tmp = scanner.next();
+                                if (!tmp.equalsIgnoreCase("continue")) {
+                                    char[] arr = tmp.toCharArray();
+                                    x = Character.getNumericValue(arr[1]);
+                                    char y1 = arr[0];
+                                    analyseInput(player, y1, x);
+                                } else {
+                                    continueGame();
+                                }
+                            }
                         }
                     }
 
@@ -232,10 +257,23 @@ public class Sea {
                 if (player instanceof Human) {
                     System.out.println("You entered wrong coordinates! Try again! It should be a character from A to K, except letter J and then a number from 1 to 10!");
                     String tmp = scanner.next();
-                    char[] arr = tmp.toCharArray();
-                    x = Character.getNumericValue(arr[1]);
-                    char y1 = arr[0];
-                    analyseInput(player, y1, x);
+                    if (!tmp.equalsIgnoreCase("save")) {
+                        char[] arr = tmp.toCharArray();
+                        x = Character.getNumericValue(arr[1]);
+                        char y1 = arr[0];
+                        analyseInput(player, y1, x);
+                    }else {
+                        save(this);
+                        tmp = scanner.next();
+                        if (!tmp.equalsIgnoreCase("continue")) {
+                            char[] arr = tmp.toCharArray();
+                            x = Character.getNumericValue(arr[1]);
+                            char y1 = arr[0];
+                            analyseInput(player, y1, x);
+                        } else {
+                            continueGame();
+                        }
+                    }
                 } else {
                     Random random = new Random();
                     x = random.nextInt(10);
@@ -249,10 +287,23 @@ public class Sea {
             if (player instanceof Human) {
                 System.out.println("You entered wrong coordinates! Try again! It should be a character from A to K, except letter J and then a number from 1 to 10!");
                 String tmp = scanner.next();
-                char[] arr = tmp.toCharArray();
-                x = Character.getNumericValue(arr[1]);
-                char y1 = arr[0];
-                analyseInput(player, y1, x);
+                if (!tmp.equalsIgnoreCase("save")) {
+                    char[] arr = tmp.toCharArray();
+                    x = Character.getNumericValue(arr[1]);
+                    char y1 = arr[0];
+                    analyseInput(player, y1, x);
+                } else {
+                    save(this);
+                    tmp = scanner.next();
+                    if (!tmp.equalsIgnoreCase("continue")) {
+                        char[] arr = tmp.toCharArray();
+                        x = Character.getNumericValue(arr[1]);
+                        char y1 = arr[0];
+                        analyseInput(player, y1, x);
+                    } else {
+                        continueGame();
+                    }
+                }
             } else {
                 Random random = new Random();
                 x = random.nextInt(10);
@@ -270,15 +321,28 @@ public class Sea {
 
         Scanner scanner = new Scanner(System.in);
 
-        while (player1.getCountOfLiveShips() != 0 || player2.getCountOfLiveShips() != 0) {
+        while (player1.getCountOfLiveShips() != 0 && player2.getCountOfLiveShips() != 0) {
             if (countOfStep % 2 != 0) {
                 System.out.println(player1.name + "'s turn to shoot");
                 System.out.println("Please enter coordinates of the cell you wanted to shoot!");
                 String tmp = scanner.next();
-                char[] arr = tmp.toCharArray();
-                x = Character.getNumericValue(arr[1]);
-                char y1 = arr[0];
-                analyseInput(player1, y1, x);
+                if (!tmp.equalsIgnoreCase("save")) {
+                    char[] arr = tmp.toCharArray();
+                    x = Character.getNumericValue(arr[1]);
+                    char y1 = arr[0];
+                    analyseInput(player1, y1, x);
+                }else {
+                    save(this);
+                    tmp = scanner.next();
+                    if (!tmp.equalsIgnoreCase("continue")) {
+                        char[] arr = tmp.toCharArray();
+                        x = Character.getNumericValue(arr[1]);
+                        char y1 = arr[0];
+                        analyseInput(player1, y1, x);
+                    } else {
+                       continueGame();
+                    }
+                }
                 countOfStep++;
             } else {
                 System.out.println(player2.name + "'s turn to shoot");
@@ -290,6 +354,11 @@ public class Sea {
                 countOfStep++;
 
             }
+        }
+        if (player1.getCountOfLiveShips() != 0 && player2.getCountOfLiveShips() == 0) {
+            System.out.println("    YOU WIN     ");
+        } else {
+            System.out.println("Game over :(");
         }
     }
 
@@ -329,12 +398,48 @@ public class Sea {
         return y1;
     }
 
-    public static Sea getUnique_instance(Player human, Player computer) {
-        if (unique_instance == null) {
-            unique_instance = new Sea(human, computer);
+    /**
+     * method for sea serialization into file
+     * @param sea is object to serialize
+     */
+    public void save(Sea sea) {
+        try {
+            FileOutputStream fileOut =
+                    new FileOutputStream("D:/Development/GitHub/BattleShip/saved.txt");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(sea);
+            out.close();
+            fileOut.close();
+            System.out.println("Serialized data is saved in saved file");
+        } catch (IOException i) {
+            i.printStackTrace();
         }
-        return unique_instance;
     }
 
+    /**
+     * method for deserialization
+     * @return deserialized object read from the file
+     */
+    public Sea continueGame() {
+        Sea sea = null;
+        try {
+            FileInputStream fileIn = new FileInputStream("D:/Development/GitHub/BattleShip/saved.txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            sea = (Sea) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Sea class not found");
+            c.printStackTrace();
+            return null;
+        }
+
+        System.out.println("Player 1: " + sea.player1.name + " VS Player 2: " + sea.player2.name);
+
+        return sea;
+    }
 }
 

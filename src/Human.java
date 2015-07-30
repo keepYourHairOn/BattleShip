@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Admin on 28.07.2015.
  */
-public class Human extends Player {
+public class Human extends Player implements Serializable {
     /**
      * constructor with parameters
      * @param name is name of the human

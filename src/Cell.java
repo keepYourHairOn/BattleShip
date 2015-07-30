@@ -1,7 +1,9 @@
+import java.io.Serializable;
+
 /**
  * Created by Admin on 28.07.2015.
  */
-public class Cell {
+public class Cell implements Serializable{
     private Integer y;
     private Integer x;
     private boolean isFree;

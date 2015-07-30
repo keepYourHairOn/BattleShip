@@ -1,10 +1,11 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * Created by Admin on 28.07.2015.
  */
-public class Computer extends Player {
+public class Computer extends Player implements Serializable {
 
     /**
      * constructor with parameters

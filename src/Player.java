@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Admin on 28.07.2015.
  */
-public abstract class Player {
+public abstract class Player implements Serializable{
     protected String name;
     protected ArrayList<Ship> ships;
     protected boolean isHitted;

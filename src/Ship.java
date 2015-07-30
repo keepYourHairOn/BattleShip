@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Admin on 28.07.2015.
  */
-public class Ship {
+public class Ship implements Serializable{
     private ArrayList<Cell> coordinates;
     private StateOfShip stateOfShip;
 
